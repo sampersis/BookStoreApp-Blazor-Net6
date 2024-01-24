@@ -1,0 +1,9 @@
+2024-01-24 18:40:09.134 +01:00 [INF] Now listening on: https://localhost:7221
+2024-01-24 18:40:09.308 +01:00 [INF] Now listening on: http://localhost:5063
+2024-01-24 18:40:09.328 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-01-24 18:40:09.333 +01:00 [INF] Hosting environment: Development
+2024-01-24 18:40:09.339 +01:00 [INF] Content root path: C:\Users\sampe\source\repos\BookStoreApp\BookStore.API\
+2024-01-24 18:40:33.569 +01:00 [INF] Made call to Weather Endpoint
+2024-01-24 18:40:33.664 +01:00 [ERR] Fatal Error Occured
+System.Exception: This is our logging test exception
+   at BookStore.API.Controllers.WeatherForecastController.Get() in C:\Users\sampe\source\repos\BookStoreApp\BookStore.API\Controllers\WeatherForecastController.cs:line 28
