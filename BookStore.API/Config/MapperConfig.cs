@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BookStoreApp.API.Data;
 using BookStoreApp.API.DTO.Author;
+using BookStoreApp.API.DTO.Book;
 
 namespace BookStoreApp.API.Config
 {
@@ -11,6 +12,18 @@ namespace BookStoreApp.API.Config
             CreateMap<AuthourDTO, Authour>().ReverseMap();
             CreateMap<AuthourUpdateDTO, Authour>().ReverseMap();
             CreateMap<AuthourReadOnlyDTO, Authour>().ReverseMap();
+
+            CreateMap<BookCreateDTO, Book>().ReverseMap();
+            CreateMap<BookUpdateDTO, Book>().ReverseMap();
+            CreateMap<Book,BookReadOnlyDTO>()
+                .ForMember(q=> q.AuthorName, d => d.MapFrom(map => $"{map.Auth.FirstName} {map.Auth.LastName}"))
+                .ReverseMap();
+
+            CreateMap<Book, BookDetailsDTO>()
+            .ForMember(q => q.AuthorName, d => d.MapFrom(map => $"{map.Auth.FirstName} {map.Auth.LastName}"))
+            .ReverseMap();
+
+            // CreateMap<ApiUser, UserDto>().ReverseMap();
 
         }
     }
