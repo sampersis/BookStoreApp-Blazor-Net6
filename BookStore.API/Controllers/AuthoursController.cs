@@ -10,11 +10,13 @@ using BookStoreApp.API.DTO.Author;
 using AutoMapper;
 using Humanizer;
 using BookStoreApp.API.Static;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookStoreApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AuthoursController : ControllerBase
     {
         private readonly BookstoredbContext _context;
@@ -74,6 +76,7 @@ namespace BookStoreApp.API.Controllers
         // PUT: api/Authours/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutAuthour(int id, AuthourUpdateDTO authourDTO)
         {
             if (id != authourDTO.Id)
@@ -113,6 +116,7 @@ namespace BookStoreApp.API.Controllers
         // POST: api/Authours
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<AuthourDTO>> PostAuthour(AuthourDTO authourDTO)
         {
             var authour = _mapper.Map<Authour>(authourDTO);
@@ -124,6 +128,7 @@ namespace BookStoreApp.API.Controllers
 
         // DELETE: api/Authours/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAuthour(int id)
         {
             var authour = await _context.Authours.FindAsync(id);

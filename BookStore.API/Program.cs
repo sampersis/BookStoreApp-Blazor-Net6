@@ -2,12 +2,19 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using BookStoreApp.API.Data;
 using BookStoreApp.API.Config;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var bookStoreAppDBConnString = builder.Configuration.GetConnectionString("BookStoreAppDBConnection");
 builder.Services.AddDbContext<BookstoredbContext>(options => options.UseSqlServer(bookStoreAppDBConnString));
+builder.Services.AddIdentityCore<ApiUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores< BookstoredbContext>();
 
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
@@ -24,6 +31,24 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll", b => b.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
 });
 
+builder.Services.AddAuthentication(Options => {
+    Options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    Options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero,
+        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+        ValidAudience = builder.Configuration["JwtSettings:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSetting:Key"]))
+    };
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,6 +62,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
