@@ -16,7 +16,7 @@ namespace BookStoreApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class AuthoursController : ControllerBase
     {
         private readonly BookstoredbContext _context;

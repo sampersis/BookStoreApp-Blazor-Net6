@@ -12,7 +12,7 @@ namespace BookStoreApp.API.DTO.User
         [Required]
         [Display(Name = "Last Name")]
         [MaxLength(50, ErrorMessage = "Last Name cannot exceed 50 characters")]
-        public string LastNamr { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
 
         public string Role { get; set; } = string.Empty;
     }
