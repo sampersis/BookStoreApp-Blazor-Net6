@@ -1,5 +1,6 @@
 ﻿@page "/users/login"
-@inject IAuthenticateService AuthService
+@inject IAuthenticationService authService
+@inject NavigationManager navManager
 
 <h3>Login</h3>
 
@@ -18,7 +19,7 @@
             <ValidationMessage For="@(() => LoginModel.Password)" />
         </div>
 
-        <button class="btn btn-primary btn-block mt-2">Register</button>
+        <button class="btn btn-primary btn-block mt-2">Login</button>
     </EditForm>
 </div>
 
@@ -34,7 +35,7 @@
 
             if (response)
             {
-
+                navManager.NavigateTo("/");
             }
 
             message = "Invalid Credentials, please try again";
